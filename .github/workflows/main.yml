@@ -3,36 +3,27 @@ name: Study Abroad Lead Generator
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: '0 */6 * * *'
-
 jobs:
   run-scanner:
     runs-on: ubuntu-latest
 
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Show Files
-        run: ls -R
-
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Lead Generator
+      - name: Run Scanner
         run: node index.js
 
-      - name: Upload Leads CSV
+      - name: Upload CSV
         uses: actions/upload-artifact@v4
         with:
-          name: study-abroad-leads
+          name: leads
           path: output/leads.csv
