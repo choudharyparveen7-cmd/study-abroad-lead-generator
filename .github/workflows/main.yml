@@ -4,33 +4,33 @@ on:
   workflow_dispatch:
 
   schedule:
-    # Runs every 6 hours
     - cron: '0 */6 * * *'
 
 jobs:
   run-scanner:
     runs-on: ubuntu-latest
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      # Step 1 — Download Repository Files
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2 — Install Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      # Step 3 — Install Packages
+      - name: Show Files
+        run: ls -R
+
       - name: Install Dependencies
         run: npm install
 
-      # Step 4 — Run Lead Generator
       - name: Run Lead Generator
         run: node index.js
 
-      # Step 5 — Upload CSV File
       - name: Upload Leads CSV
         uses: actions/upload-artifact@v4
         with:
